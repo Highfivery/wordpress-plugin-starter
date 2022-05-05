@@ -16,6 +16,13 @@ defined( 'ABSPATH' ) || die();
 class Settings {
 
 	/**
+	 * Settings key
+	 *
+	 * @var string
+	 */
+	public static $settings_key = 'FUNCTION_PREFIX';
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -27,8 +34,6 @@ class Settings {
 	 * Admin menu
 	 */
 	public function admin_menu() {
-		$this->process_nonce_actions();
-
 		add_submenu_page(
 			'options-general.php',
 			__( 'PLUGIN_NAME Settings', 'PLUGIN_TEXT_DOMAIN' ),
@@ -44,79 +49,32 @@ class Settings {
 	 */
 	public function register_settings() {
 		register_setting(
-			'FUNCTION_PREFIX',
-			'FUNCTION_PREFIX'
+			self::$settings_key,
+			self::$settings_key
 		);
 
 		foreach ( \PLUGIN_PACKAGE\Core\Settings::get_sections() as $key => $section ) {
 			add_settings_section(
-				'FUNCTION_PREFIX_' . $key,
+				self::$settings_key . '_' . $key,
 				$section['title'],
 				array( $this, 'settings_section' ),
-				'FUNCTION_PREFIX'
+				self::$settings_key
 			);
 		}
 
 		foreach ( \PLUGIN_PACKAGE\Core\Settings::get_settings() as $key => $setting ) {
 			$options = array(
 				'label_for' => $key,
-				'type'      => $setting['type'],
 			);
 
-			if ( ! empty( $setting['options'] ) ) {
-				$options['options'] = $setting['options'];
-			}
-
-			if ( ! empty( $setting['value'] ) ) {
-				$options['value'] = $setting['value'];
-			}
-
-			if ( ! empty( $setting['placeholder'] ) ) {
-				$options['placeholder'] = $setting['placeholder'];
-			}
-
-			if ( ! empty( $setting['class'] ) ) {
-				$options['class'] = $setting['class'];
-			}
-
-			if ( ! empty( $setting['desc'] ) ) {
-				$options['desc'] = $setting['desc'];
-			}
-
-			if ( ! empty( $setting['suffix'] ) ) {
-				$options['suffix'] = $setting['suffix'];
-			}
-
-			if ( ! empty( $setting['min'] ) ) {
-				$options['min'] = $setting['min'];
-			}
-
-			if ( ! empty( $setting['max'] ) ) {
-				$options['max'] = $setting['max'];
-			}
-
-			if ( ! empty( $setting['step'] ) ) {
-				$options['step'] = $setting['step'];
-			}
-
-			if ( ! empty( $setting['html'] ) ) {
-				$options['html'] = $setting['html'];
-			}
-
-			if ( ! empty( $setting['field_class'] ) ) {
-				$options['field_class'] = $setting['field_class'];
-			}
-
-			if ( ! empty( $setting['multiple'] ) ) {
-				$options['multiple'] = $setting['multiple'];
-			}
+			$options = array_merge( $options, $setting );
 
 			add_settings_field(
 				$key,
 				! empty( $setting['title'] ) ? $setting['title'] : false,
 				array( $this, 'settings_field' ),
-				'FUNCTION_PREFIX',
-				'FUNCTION_PREFIX_' . $setting['section'],
+				self::$settings_key,
+				self::$settings_key . '_' . $setting['section'],
 				$options
 			);
 		}
@@ -175,7 +133,7 @@ class Settings {
 				?>
 				<textarea
 					id="<?php echo esc_attr( $args['label_for'] ); ?>"
-					name="wpzerospam[<?php echo esc_attr( $args['label_for'] ); ?>]"
+					name="<?php echo esc_attr( self::$settings_key ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 					rows="5"
 					<?php if ( ! empty( $args['field_class'] ) ) : ?>
 						class="<?php echo esc_attr( $args['field_class'] ); ?>"
@@ -194,7 +152,7 @@ class Settings {
 				?>
 				<input
 					id="<?php echo esc_attr( $args['label_for'] ); ?>"
-					name="wpzerospam[<?php echo esc_attr( $args['label_for'] ); ?>]"
+					name="<?php echo esc_attr( self::$settings_key ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 					type="<?php echo esc_attr( $args['type'] ); ?>"
 					<?php if ( ! empty( $args['value'] ) ) : ?>
 						value="<?php echo esc_attr( $args['value'] ); ?>"
@@ -222,9 +180,9 @@ class Settings {
 					return;
 				}
 
-				$name = 'wpzerospam[' . esc_attr( $args['label_for'] ) . ']';
+				$name = self::$settings_key . '[' . esc_attr( $args['label_for'] ) . ']';
 				if ( ! empty( $args['multiple'] ) ) :
-					$name = 'wpzerospam[' . esc_attr( $args['label_for'] ) . '][]';
+					$name = self::$settings_key . '[' . esc_attr( $args['label_for'] ) . '][]';
 				endif;
 				?>
 				<select
@@ -270,7 +228,7 @@ class Settings {
 
 				foreach ( $args['options'] as $key => $label ) {
 					$selected = false;
-					$name     = 'wpzerospam[' . esc_attr( $args['label_for'] ) . ']';
+					$name     = self::$settings_key . '[' . esc_attr( $args['label_for'] ) . ']';
 					if ( count( $args['options'] ) > 1 && 'checkbox' === $args['type'] ) {
 						$name .= '[' . esc_attr( $key ) . ']';
 					}
@@ -358,28 +316,18 @@ class Settings {
 			return;
 		}
 
-		$base_admin_link = 'options-general.php?page=wordpress-zero-spam-settings';
+		$base_admin_link = 'options-general.php?page=PLUGIN_TEXT_DOMAIN-settings';
 		// @codingStandardsIgnoreLine
 		$current_tab = ! empty( $_REQUEST['tab'] ) ? sanitize_text_field( $_REQUEST['tab'] ) : 'settings';
 		$admin_tabs  = array(
 			'settings' => array(
-				'title'    => __( 'Settings', 'zero-spam' ),
+				'title'    => __( 'Settings', 'PLUGIN_TEXT_DOMAIN' ),
 				'template' => 'settings',
-			),
-			'export'   => array(
-				'title'    => __( 'Export/Import Settings', 'zero-spam' ),
-				'template' => 'export',
-			),
-			'error'    => array(
-				'title'    => __( 'Error Log', 'zero-spam' ),
-				'template' => 'errors',
 			),
 		);
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-
-			<?php require ZEROSPAM_PATH . 'includes/templates/admin-callout.php'; ?>
 
 			<nav class="nav-tab-wrapper" style="margin-bottom: 16px;">
 				<?php
@@ -400,7 +348,7 @@ class Settings {
 				<?php endforeach; ?>
 			</nav>
 
-			<?php require ZEROSPAM_PATH . 'includes/templates/settings/' . $admin_tabs[ $current_tab ]['template'] . '.php'; ?>
+			<?php require PLUGIN_CONSTANT_PATH . 'admin/templates/' . $admin_tabs[ $current_tab ]['template'] . '.php'; ?>
 		</div>
 		<?php
 	}

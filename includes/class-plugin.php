@@ -54,7 +54,10 @@ class Plugin {
 	 * Initializes modules
 	 */
 	private function init_modules() {
-
+		if ( is_admin() ) {
+			// Plugin admin module.
+			new \PLUGIN_PACKAGE\Admin\Admin();
+		}
 	}
 }
 

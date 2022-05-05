@@ -33,13 +33,9 @@ class Settings {
 	 * Returns the plugin setting sections
 	 */
 	public static function get_sections() {
-		/*
-		Example Setting Section
-
 		self::$sections['general'] = array(
 			'title' => __( 'General Settings', 'PLUGIN_TEXT_DOMAIN' ),
 		);
-		*/
 
 		return apply_filters( 'FUNCTION_PREFIX_setting_sections', self::$sections );
 	}
@@ -52,10 +48,8 @@ class Settings {
 	public static function get_settings( $key = false ) {
 		$options = get_option( 'FUNCTION_PREFIX' );
 
-		/*
-		HTML Setting Example
 
-		self::$settings['setting_key'] = array(
+		self::$settings['setting_key_1'] = array(
 			'title'   => __( 'Setting Title', 'PLUGIN_TEXT_DOMAIN' ),
 			'desc'    => sprintf(
 				wp_kses(
@@ -72,12 +66,8 @@ class Settings {
 				)
 			),
 		);
-		*/
 
-		/*
-		Checkbox Setting Example
-
-		self::$settings['setting_key'] = array(
+		self::$settings['setting_key_2'] = array(
 			'title'       => __( 'Setting Title', 'PLUGIN_TEXT_DOMAIN' ),
 			'section'     => 'general',
 			'type'        => 'checkbox',
@@ -97,12 +87,8 @@ class Settings {
 			),
 			'value'       => ! empty( $options['setting_key'] ) ? $options['setting_key'] : false,
 		);
-		*/
 
-		/*
-		Example Select Settong
-
-		self::$settings['setting_key'] = array(
+		self::$settings['setting_key_3'] = array(
 			'title'       => __( 'Setting Title', 'PLUGIN_TEXT_DOMAIN' ),
 			'section'     => 'general',
 			'type'        => 'select',
@@ -129,12 +115,8 @@ class Settings {
 			'value'       => ! empty( $options['setting_key'] ) ? $options['setting_key'] : false,
 			'multiple'    => true,
 		);
-		*/
 
-		/*
-		Example Radio Setting
-
-		self::$settings['setting_key'] = array(
+		self::$settings['setting_key_3'] = array(
 			'title'       => __( 'Setting Title', 'PLUGIN_TEXT_DOMAIN' ),
 			'desc'        => sprintf(
 				wp_kses(
@@ -160,12 +142,8 @@ class Settings {
 			),
 			'value'       => ! empty( $options['setting_key'] ) ? $options['setting_key'] : false,
 		);
-		*/
 
-		/*
-		Example Text/URL/Number/Textarea Setting
-
-		self::$settings['setting_key'] = array(
+		self::$settings['setting_key_4'] = array(
 			'title'       => __( 'Setting Title', 'PLUGIN_TEXT_DOMAIN' ),
 			'desc'        => sprintf(
 				wp_kses(
@@ -179,7 +157,6 @@ class Settings {
 			'placeholder' => __( 'Placeholder text', 'PLUGIN_TEXT_DOMAIN' ),
 			'value'       => ! empty( $options['setting_key'] ) ? $options['setting_key'] : false,
 		);
-		*/
 
 		$settings = apply_filters( 'FUNCTION_PREFIX_settings', self::$settings, $options );
 
