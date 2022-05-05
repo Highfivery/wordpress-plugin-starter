@@ -233,10 +233,17 @@ class Settings {
 						$name .= '[' . esc_attr( $key ) . ']';
 					}
 
-					if ( ! empty( $args['value'] ) && $args['value'] == $key ) {
-						$selected = true;
+					switch ( $args['type'] ) {
+						case 'checkbox':
+							if ( ! empty( $args['value'] ) && in_array( $key, $args['value'], true ) ) {
+								$selected = true;
+							}
+							break;
+						default:
+							if ( ! empty( $args['value'] ) && $args['value'] == $key ) {
+								$selected = true;
+							}
 					}
-
 					?>
 					<label for="<?php echo esc_attr( $args['label_for'] . $key ); ?>">
 						<input
