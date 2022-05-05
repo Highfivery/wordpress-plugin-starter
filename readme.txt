@@ -4,8 +4,8 @@ Requires at least: 5.2
 Tested up to: 5.9.3
 Requires PHP: 7.3
 Stable tag: 1.0.0
-License: MIT
-License URI: https://choosealicense.com/licenses/mit/
+License: PLUGIN_LICENSE
+License URI: PLUGIN_LICENSE_URL
 
 PLUGIN_DESCRIPTION
 

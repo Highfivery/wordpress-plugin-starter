@@ -7,7 +7,7 @@
  * @since      1.0.0
  * @author     PLUGIN_AUTHOR
  * @copyright  2022 PLUGIN_AUTHOR
- * @license    GPL-2.0-or-later
+ * @license    PLUGIN_LICENSE
  *
  * @wordpress-plugin
  * Plugin Name:       PLUGIN_NAME
@@ -20,8 +20,8 @@
  * Author URI:        PLUGIN_AUTHOR_URI
  * Text Domain:       PLUGIN_TEXT_DOMAIN
  * Domain Path:       /languages
- * License:           GPL v2 or later
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           PLUGIN_LICENSE
+ * License URI:       PLUGIN_LICENSE_URL
  */
 
 // Security Note: Blocks direct access to the plugin PHP files.
