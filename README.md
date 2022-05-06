@@ -14,7 +14,7 @@ We don't know everything! We welcome pull requests and spirited debates :)
 ./setup.sh
 ```
 
-### Adding a Setting
+### Register Plugin Settings
 
 ```
 add_filter( 'FUNCTION_PREFIX_settings', array( $this, 'add_setting' ), 10, 1 );
@@ -39,6 +39,32 @@ function add_section( $sections ) {
   );
 
   return $sections;
+}
+```
+
+### Adding a Setting Field
+
+```
+add_filter( 'FUNCTION_PREFIX_settings_fields', 'add_setting_field', 10, 1 );
+function add_section( $settings_fields ) {
+  $settings_fields['setting_key'] = array(
+    'title'       => __( 'Setting Title', 'PLUGIN_TEXT_DOMAIN' ),
+    'desc'        => sprintf(
+      wp_kses(
+        __( 'Setting description', 'PLUGIN_TEXT_DOMAIN' ),
+        array()
+      )
+    ),
+    'page'        => 'page_slude',
+    'section'     => 'new_section',
+    'option_name' => 'db_key',
+    'type'        => 'text', // text, url, number, textarea.
+    'field_class' => 'large-text', // large-text, medium-text, small-text, regular-text, code.
+    'placeholder' => __( 'Placeholder text', 'PLUGIN_TEXT_DOMAIN' ),
+    'value'       => ! empty( $options['setting_key'] ) ? $options['setting_key'] : false,
+  );
+
+  return $settings_fields;
 }
 ```
 
