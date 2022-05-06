@@ -9,7 +9,7 @@
 
 <form action="options.php" method="post">
 <?php
-// Output security fields for the registered setting "wpzerospam".
+// Output security fields for the registered setting "FUNCTION_PREFIX".
 settings_fields( \PLUGIN_PACKAGE\Admin\Settings::$settings_key );
 
 // Output setting sections and their fields.

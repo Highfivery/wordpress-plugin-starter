@@ -16,13 +16,6 @@ defined( 'ABSPATH' ) || die();
 class Settings {
 
 	/**
-	 * Settings key
-	 *
-	 * @var string
-	 */
-	public static $settings_key = 'FUNCTION_PREFIX';
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -49,16 +42,19 @@ class Settings {
 	 */
 	public function register_settings() {
 		register_setting(
-			self::$settings_key,
-			self::$settings_key
+			'FUNCTION_PREFIX',
+			array(
+				'optionset_1',
+				'optionset_2',
+			)
 		);
 
 		foreach ( \PLUGIN_PACKAGE\Core\Settings::get_sections() as $key => $section ) {
 			add_settings_section(
-				self::$settings_key . '_' . $key,
+				$key,
 				$section['title'],
 				array( $this, 'settings_section' ),
-				self::$settings_key
+				$section['page']
 			);
 		}
 
@@ -67,15 +63,13 @@ class Settings {
 				'label_for' => $key,
 			);
 
-			$options = array_merge( $options, $setting );
-
 			add_settings_field(
 				$key,
 				! empty( $setting['title'] ) ? $setting['title'] : false,
 				array( $this, 'settings_field' ),
-				self::$settings_key,
-				self::$settings_key . '_' . $setting['section'],
-				$options
+				$setting['page'],
+				$setting['section'],
+				array_merge( $options, $setting )
 			);
 		}
 	}
@@ -99,6 +93,7 @@ class Settings {
 				echo wp_kses(
 					$args['html'],
 					array(
+						'hr'     => array(),
 						'strong' => array(),
 						'a'      => array(
 							'href'   => array(),

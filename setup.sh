@@ -35,9 +35,8 @@ echo "\n"
 echo "Name: $plugin_name"
 echo "Description: $plugin_description"
 echo "URI: $plugin_uri"
-echo "Author: $plugin_author"
-echo "Author URI: $plugin_author_uri"
-echo "Plugin License: $plugin_license"
+echo "Author: $plugin_author ($plugin_author_uri)"
+echo "Plugin License: $plugin_license ($plugin_license_uri)"
 echo "Text Domain: $text_domain"
 echo "Function Prefix: $function_prefix"
 echo "Constant: $plugin_constant"
@@ -60,7 +59,7 @@ case "$response" in
     find ./ -type f -exec sed -i '' -e "s~PLUGIN_URI~$plugin_uri~g" {} \;
     find ./ -type f -exec sed -i '' -e "s~PLUGIN_CONSTANT~$plugin_constant~g" {} \;
     find ./ -type f -exec sed -i '' -e "s~FUNCTION_PREFIX~$function_prefix~g" {} \;
-    find ./ -type f -exec sed -i '' -e "s~PLUGIN_LICENSE_URI~$plugin_license_uri~g" {} \;
+    find ./ -type f -exec sed -i '' -e "s~PLUGIN_LICENSE_URL~$plugin_license_uri~g" {} \;
     find ./ -type f -exec sed -i '' -e "s~PLUGIN_LICENSE~$plugin_license~g" {} \;
     cd ..
     mv $text_domain ../

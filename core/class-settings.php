@@ -46,8 +46,7 @@ class Settings {
 	 * @param string $key Setting key to retrieve.
 	 */
 	public static function get_settings( $key = false ) {
-		//delete_option(\PLUGIN_PACKAGE\Admin\Settings::$settings_key);
-		$options = get_option( \PLUGIN_PACKAGE\Admin\Settings::$settings_key );
+		$options = array();
 
 		self::$settings['setting_key_1'] = array(
 			'title'   => __( 'Setting Title 1', 'PLUGIN_TEXT_DOMAIN' ),
@@ -153,7 +152,7 @@ class Settings {
 			),
 			'section'     => 'general',
 			'type'        => 'text', // text, url, number, textarea.
-			'field_class' => 'large-text', // large-text, small-text, regular-text, code.
+			'field_class' => 'large-text', // large-text, medium-text, small-text, regular-text, code.
 			'placeholder' => __( 'Placeholder text', 'PLUGIN_TEXT_DOMAIN' ),
 			'value'       => ! empty( $options['setting_key_5'] ) ? $options['setting_key_5'] : false,
 		);
