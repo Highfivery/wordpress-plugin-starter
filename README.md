@@ -14,6 +14,20 @@ We don't know everything! We welcome pull requests and spirited debates :)
 ./setup.sh
 ```
 
+### Adding Setting Sections
+
+```
+add_filter( 'FUNCTION_PREFIX_setting_sections', 'add_section' );
+function add_section( $sections ) {
+  $sections['new_section'] = array(
+		'title' => __( 'Section Name', 'PLUGIN_TEXT_DOMAIN' ),
+    'page'  => 'page_slug',
+	);
+
+	return $sections;
+}
+```
+
 ## Support Level
 
 **Active:** Highfivery is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent WordPress versions. Bug reports, feature requests, questions, and pull requests are welcome.

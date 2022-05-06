@@ -41,13 +41,9 @@ class Settings {
 	 * Register settings
 	 */
 	public function register_settings() {
-		register_setting(
-			'FUNCTION_PREFIX',
-			array(
-				'optionset_1',
-				'optionset_2',
-			)
-		);
+		foreach ( \PLUGIN_PACKAGE\Core\Settings::get_settings() as $key => $setting ) {
+			register_setting( $setting['option_group'], $setting['option_name'] );
+		}
 
 		foreach ( \PLUGIN_PACKAGE\Core\Settings::get_sections() as $key => $section ) {
 			add_settings_section(
@@ -58,7 +54,7 @@ class Settings {
 			);
 		}
 
-		foreach ( \PLUGIN_PACKAGE\Core\Settings::get_settings() as $key => $setting ) {
+		foreach ( \PLUGIN_PACKAGE\Core\Settings::get_settings_fields() as $key => $setting ) {
 			$options = array(
 				'label_for' => $key,
 			);
@@ -128,7 +124,7 @@ class Settings {
 				?>
 				<textarea
 					id="<?php echo esc_attr( $args['label_for'] ); ?>"
-					name="<?php echo esc_attr( self::$settings_key ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
+					name="<?php echo esc_attr( $args['option_name'] ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 					rows="5"
 					<?php if ( ! empty( $args['field_class'] ) ) : ?>
 						class="<?php echo esc_attr( $args['field_class'] ); ?>"
@@ -147,7 +143,7 @@ class Settings {
 				?>
 				<input
 					id="<?php echo esc_attr( $args['label_for'] ); ?>"
-					name="<?php echo esc_attr( self::$settings_key ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
+					name="<?php echo esc_attr( $args['option_name'] ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 					type="<?php echo esc_attr( $args['type'] ); ?>"
 					<?php if ( ! empty( $args['value'] ) ) : ?>
 						value="<?php echo esc_attr( $args['value'] ); ?>"
@@ -175,9 +171,9 @@ class Settings {
 					return;
 				}
 
-				$name = self::$settings_key . '[' . esc_attr( $args['label_for'] ) . ']';
+				$name = $args['option_name'] . '[' . esc_attr( $args['label_for'] ) . ']';
 				if ( ! empty( $args['multiple'] ) ) :
-					$name = self::$settings_key . '[' . esc_attr( $args['label_for'] ) . '][]';
+					$name = $args['option_name'] . '[' . esc_attr( $args['label_for'] ) . '][]';
 				endif;
 				?>
 				<select
@@ -223,7 +219,7 @@ class Settings {
 
 				foreach ( $args['options'] as $key => $label ) {
 					$selected = false;
-					$name     = self::$settings_key . '[' . esc_attr( $args['label_for'] ) . ']';
+					$name     = $args['option_name'] . '[' . esc_attr( $args['label_for'] ) . ']';
 					if ( count( $args['options'] ) > 1 && 'checkbox' === $args['type'] ) {
 						$name .= '[' . esc_attr( $key ) . ']';
 					}
@@ -257,7 +253,7 @@ class Settings {
 						echo wp_kses(
 							$label,
 							array(
-								'a' => array(
+								'a'      => array(
 									'target' => array(),
 									'href'   => array(),
 									'class'  => array(),
