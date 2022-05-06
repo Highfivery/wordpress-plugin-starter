@@ -14,17 +14,31 @@ We don't know everything! We welcome pull requests and spirited debates :)
 ./setup.sh
 ```
 
-### Adding Setting Sections
+### Adding a Setting
 
 ```
-add_filter( 'FUNCTION_PREFIX_setting_sections', 'add_section' );
+add_filter( 'FUNCTION_PREFIX_settings', array( $this, 'add_setting' ), 10, 1 );
+function add_setting( $settings ) {
+  $sections['reference_key'] = array(
+    'option_group' => 'option_group_name',
+    'option_name'  => 'db_key',
+  );
+
+  return $settings;
+}
+```
+
+### Adding a Setting Sections
+
+```
+add_filter( 'FUNCTION_PREFIX_setting_sections', 'add_section', 10, 1 );
 function add_section( $sections ) {
   $sections['new_section'] = array(
-		'title' => __( 'Section Name', 'PLUGIN_TEXT_DOMAIN' ),
+    'title' => __( 'Section Name', 'PLUGIN_TEXT_DOMAIN' ),
     'page'  => 'page_slug',
-	);
+  );
 
-	return $sections;
+  return $sections;
 }
 ```
 
