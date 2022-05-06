@@ -18,7 +18,7 @@ class Settings {
 	/**
 	 * Settings
 	 *
-	 * @var array $settings Registered plugin settings
+	 * @var array $settings Registered plugin settings.
 	 */
 	public static $settings = array();
 
@@ -32,7 +32,7 @@ class Settings {
 	/**
 	 * Sections
 	 *
-	 * @var Sections
+	 * @var array $sections Registered plugin setting sections.
 	 */
 	public static $sections = array();
 

@@ -17,8 +17,12 @@ We don't know everything! We welcome pull requests and spirited debates :)
 ### Register Plugin Settings
 
 ```
-add_filter( 'FUNCTION_PREFIX_settings', array( $this, 'add_setting' ), 10, 1 );
-function add_setting( $settings ) {
+/**
+ * Register settings
+ *
+ * @param array $settings Registered settings.
+ */
+function register_sections( $settings ) {
   $sections['reference_key'] = array(
     'option_group' => 'option_group_name',
     'option_name'  => 'db_key',
@@ -26,13 +30,19 @@ function add_setting( $settings ) {
 
   return $settings;
 }
+
+add_filter( 'FUNCTION_PREFIX_settings', 'register_sections', 10, 1 );
 ```
 
 ### Adding a Setting Sections
 
 ```
-add_filter( 'FUNCTION_PREFIX_setting_sections', 'add_section', 10, 1 );
-function add_section( $sections ) {
+/**
+ * Register sections
+ *
+ * @param array $sections Registered sections.
+ */
+function register_sections( $sections ) {
   $sections['new_section'] = array(
     'title' => __( 'Section Name', 'PLUGIN_TEXT_DOMAIN' ),
     'page'  => 'page_slug',
@@ -40,13 +50,14 @@ function add_section( $sections ) {
 
   return $sections;
 }
+
+add_filter( 'FUNCTION_PREFIX_setting_sections', 'register_sections', 10, 1 );
 ```
 
 ### Adding a Setting Field
 
 ```
-add_filter( 'FUNCTION_PREFIX_settings_fields', 'add_setting_field', 10, 1 );
-function add_section( $settings_fields ) {
+function register_setting_fields( $settings_fields ) {
   $settings_fields['setting_key'] = array(
     'title'       => __( 'Setting Title', 'PLUGIN_TEXT_DOMAIN' ),
     'desc'        => sprintf(
@@ -66,6 +77,8 @@ function add_section( $settings_fields ) {
 
   return $settings_fields;
 }
+
+add_filter( 'FUNCTION_PREFIX_settings_fields', 'register_setting_fields', 10, 1 );
 ```
 
 ## Support Level
